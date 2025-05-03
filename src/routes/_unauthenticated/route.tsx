@@ -6,7 +6,7 @@ export const Route = createFileRoute("/_unauthenticated")({
 
 function RouteComponent() {
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-center p-4">
       <Outlet />
     </div>
   );
