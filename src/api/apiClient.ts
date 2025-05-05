@@ -15,7 +15,7 @@ let isRefreshing = false;
 
 // Token refresh function
 const refreshToken = async () => {
-  if (!refreshPromise) {
+  if (!refreshPromise && !isRefreshing) {
     isRefreshing = true;
     refreshPromise = apiClient
       .post("/auth/refresh")
