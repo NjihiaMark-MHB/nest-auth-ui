@@ -12,10 +12,33 @@ import {
   useSetCurrentUser,
   useSetIsAuthenticated,
 } from "../../zustand-stores/auth";
+import apiClient from "../../api/apiClient";
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: async () => {
+  beforeLoad: async ({ search }) => {
     const isAuthenticated = useAuthStore.getState().isAuthenticated;
+    const userId = (search as { userId?: string }).userId;
+
+    // Handle Google OAuth callback
+    if (userId && !isAuthenticated) {
+      try {
+        const response = await apiClient.get(`/users/uuid/${userId}`);
+        useAuthStore.setState({
+          isAuthenticated: true,
+          currentUser: response.data,
+        });
+        window.location.href = "/home";
+        return;
+      } catch (error) {
+        console.error("Error setting user data:", error);
+        throw redirect({
+          to: "/",
+          replace: true,
+        });
+      }
+    }
+
+    // Regular auth check
     if (!isAuthenticated) {
       throw redirect({
         to: "/",

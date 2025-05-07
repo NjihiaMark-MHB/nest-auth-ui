@@ -11,6 +11,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createUserSchema } from "../../types/sign-up";
+import { GoogleButton } from "../../components/GoogleButton";
 
 export const Route = createFileRoute("/_unauthenticated/sign-up")({
   component: RouteComponent,
@@ -61,6 +62,10 @@ function RouteComponent() {
         console.log(error);
       },
     });
+  };
+
+  const handleGoogleAuth = () => {
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
   };
 
   return (
@@ -126,11 +131,17 @@ function RouteComponent() {
 
           <button
             type="submit"
-            className="w-full bg-black text-white p-2 rounded"
+            className="w-full cursor-pointer bg-black text-white p-2 rounded"
           >
             Create an account
           </button>
         </form>
+        <div className="mt-4">
+          <GoogleButton
+            text="Sign up with Google"
+            onClick={() => handleGoogleAuth()}
+          />
+        </div>
         <p className="mt-4">
           Already have an account?{" "}
           <Link to="/" className="text-red-500">

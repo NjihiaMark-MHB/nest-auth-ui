@@ -9,6 +9,7 @@ import {
   useSetCurrentUser,
   useSetIsAuthenticated,
 } from "../../zustand-stores/auth";
+import { GoogleButton } from "../../components/GoogleButton";
 
 export const Route = createFileRoute("/_unauthenticated/")({
   component: RouteComponent,
@@ -39,6 +40,10 @@ function RouteComponent() {
         navigate({ to: "/home", replace: true });
       },
     });
+  };
+
+  const handleGoogleAuth = () => {
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
   };
 
   return (
@@ -76,13 +81,19 @@ function RouteComponent() {
           </div>
           <button
             type="submit"
-            className="w-full bg-black text-white p-2 rounded"
+            className="w-full cursor-pointer bg-black text-white p-2 rounded"
           >
             Login
           </button>
         </form>
+        <div className="mt-4">
+          <GoogleButton
+            text="Sign in with Google"
+            onClick={() => handleGoogleAuth()}
+          />
+        </div>
         <p className="mt-4">
-          Don’t have an account?{" "}
+          Don't have an account?{" "}
           <Link to="/sign-up" className="text-red-500">
             Sign Up
           </Link>
